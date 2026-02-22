@@ -254,6 +254,7 @@
         <div class="tab" onclick="showTab(1)">Recursos</div>
         <div class="tab" onclick="showTab(2)">Download</div>
         <div class="tab" onclick="showTab(3)">Clientes</div>
+        <div class="tab" onclick="showTab(4)">Contatos/Suporte</div>
     </div>
     <div class="tab-content" style="display:block;">
         <h2>Bem-vindo ao Torres Gestão</h2>
@@ -311,12 +312,30 @@
     <div class="tab-content" style="display:none;">
         <h2>Nossos Clientes</h2>
         <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-top: 32px;">
-            <img src="acai-do-madruga-logo.png" alt="Açai do Madruga - Marista" style="width: 140px; height: auto; border-radius: 12px; box-shadow: 0 2px 8px rgba(10,44,83,0.12); margin-bottom: 18px;">
+            <img src="clientes/acai-do-madruga-logo.png" alt="Açai do Madruga - Marista" style="width: 140px; height: auto; border-radius: 12px; box-shadow: 0 2px 8px rgba(10,44,83,0.12); margin-bottom: 18px;">
             <h3 style="color: var(--azul-escuro); font-size: 26px; font-weight: bold;">Açai do Madruga - Marista</h3>
             <p style="color: var(--azul-escuro); font-size: 18px; margin-top: 8px;">Cliente Torres Gestão</p>
-            <img src="Pedacci-logo.jpeg" alt="Pedacci Bistro e Pizzaria" style="width: 140px; height: auto; border-radius: 12px; box-shadow: 0 2px 8px rgba(10,44,83,0.12); margin-bottom: 18px; margin-top: 32px;">
+            <img src="clientes/Pedacci-logo.jpeg" alt="Pedacci Bistro e Pizzaria" style="width: 140px; height: auto; border-radius: 12px; box-shadow: 0 2px 8px rgba(10,44,83,0.12); margin-bottom: 18px; margin-top: 32px;">
             <h3 style="color: var(--azul-escuro); font-size: 26px; font-weight: bold;">Pedacci Bistro e Pizzaria</h3>
             <p style="color: var(--azul-escuro); font-size: 18px; margin-top: 8px;">Cliente Torres Gestão</p>
+        </div>
+    </div>
+    </div>
+    <div class="tab-content" style="display:none;">
+        <h2>Contatos / Suporte</h2>
+        <p>Entre em contato para dúvidas, suporte ou sugestões:</p>
+        <form style="max-width:400px;margin:auto;background:var(--dourado-claro);padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(201,161,59,0.08);">
+            <label for="nome" style="display:block;margin-bottom:8px;color:var(--azul-escuro);font-weight:600;">Nome:</label>
+            <input type="text" id="nome" name="nome" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--dourado);margin-bottom:16px;">
+            <label for="email" style="display:block;margin-bottom:8px;color:var(--azul-escuro);font-weight:600;">E-mail:</label>
+            <input type="email" id="email" name="email" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--dourado);margin-bottom:16px;">
+            <label for="mensagem" style="display:block;margin-bottom:8px;color:var(--azul-escuro);font-weight:600;">Mensagem:</label>
+            <textarea id="mensagem" name="mensagem" rows="4" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--dourado);margin-bottom:16px;"></textarea>
+            <button type="submit" class="btn-download" style="width:100%;margin-top:8px;">Enviar</button>
+        </form>
+        <div style="margin-top:32px;text-align:center;color:var(--azul-escuro);">
+            <p><strong>WhatsApp:</strong> (62) 98618-7482</p>
+            <p><strong>E-mail:</strong> torresgestão2026@gmail.com</p>
         </div>
     </div>
 
