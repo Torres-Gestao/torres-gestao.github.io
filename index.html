@@ -5,18 +5,205 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Torres Gestão - Sistema PDV Profissional</title>
         <style>
-            body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: #e9eef6; }
-            header { background-color: #003366; color: #fff; padding: 40px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; }
-            .container { padding: 50px 20px; max-width: 900px; margin: auto; }
-            .btn-download { background-color: #1e7e34; color: white; padding: 15px 30px; text-decoration: none; font-size: 20px; border-radius: 5px; display: inline-block; margin-top: 20px; transition: background 0.2s; }
-            .btn-download:hover { background-color: #155d27; }
-            .tabs { display: flex; justify-content: center; margin-top: 30px; }
-            .tab { background: #fff; color: #003366; border: 1px solid #003366; border-bottom: none; padding: 12px 32px; cursor: pointer; font-size: 18px; border-radius: 10px 10px 0 0; margin-right: 5px; transition: background 0.2s; }
-            .tab.active { background: #003366; color: #fff; }
-            .tab-content { background: #fff; border: 1px solid #003366; border-radius: 0 0 10px 10px; padding: 30px; min-height: 220px; }
-            .features { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 40px; }
-            .card { background: #f7f9fb; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); width: 250px; }
-            footer { margin-top: 50px; padding: 20px; background: #003366; color: white; }
+                                    /* Modal para descrição dos recursos */
+                                    .modal-bg {
+                                        display: none;
+                                        position: fixed;
+                                        top: 0; left: 0; right: 0; bottom: 0;
+                                        background: rgba(10,44,83,0.45);
+                                        z-index: 1000;
+                                        justify-content: center;
+                                        align-items: center;
+                                    }
+                                    .modal-bg.active {
+                                        display: flex;
+                                    }
+                                    .modal-recurso {
+                                        background: var(--branco);
+                                        border: 3px solid var(--dourado);
+                                        border-radius: 16px;
+                                        box-shadow: 0 8px 32px rgba(10,44,83,0.18);
+                                        padding: 36px 32px 28px 32px;
+                                        max-width: 420px;
+                                        width: 90vw;
+                                        color: var(--azul-escuro);
+                                        font-size: 20px;
+                                        text-align: center;
+                                        position: relative;
+                                        animation: fadeIn 0.3s;
+                                    }
+                                    .modal-recurso strong {
+                                        color: var(--dourado);
+                                        font-size: 24px;
+                                        display: block;
+                                        margin-bottom: 12px;
+                                    }
+                                    .modal-close {
+                                        position: absolute;
+                                        top: 12px;
+                                        right: 18px;
+                                        background: none;
+                                        border: none;
+                                        font-size: 28px;
+                                        color: var(--azul-escuro);
+                                        cursor: pointer;
+                                        font-weight: bold;
+                                        transition: color 0.2s;
+                                    }
+                                    .modal-close:hover {
+                                        color: var(--dourado);
+                                    }
+                        .recursos-grid {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                            gap: 24px;
+                            margin-top: 32px;
+                            margin-bottom: 24px;
+                        }
+                        .btn-recurso {
+                            background-color: var(--azul-escuro);
+                            color: var(--dourado);
+                            font-size: 20px;
+                            font-weight: bold;
+                            border: none;
+                            border-radius: 8px;
+                            padding: 28px 18px;
+                            box-shadow: 0 2px 8px rgba(10,44,83,0.12);
+                            cursor: pointer;
+                            transition: background 0.2s, color 0.2s, transform 0.2s;
+                            width: 100%;
+                            text-align: center;
+                            outline: none;
+                        }
+                        .btn-recurso:hover {
+                            background-color: var(--dourado);
+                            color: var(--azul-escuro);
+                            transform: scale(1.04);
+                            box-shadow: 0 4px 16px rgba(201,161,59,0.18);
+                        }
+            :root {
+                --azul-escuro: #0a2c53;
+                --azul-medio: #1b3666;
+                --dourado: #c9a13b;
+                --dourado-claro: #ffe7a3;
+                --branco: #fff;
+            }
+            body {
+                font-family: 'Segoe UI', Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background: linear-gradient(135deg, var(--dourado-claro) 60%, var(--dourado) 100%);
+                min-height: 100vh;
+            }
+            header {
+                background-color: var(--dourado);
+                color: var(--azul-escuro);
+                padding: 40px 20px 20px 20px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                text-align: center;
+                position: relative;
+            }
+            .logo {
+                width: 120px;
+                height: auto;
+                margin-bottom: 10px;
+            }
+            .container {
+                padding: 50px 20px;
+                max-width: 900px;
+                margin: auto;
+                background: rgba(255,255,255,0.92);
+                border-radius: 16px;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+            }
+            .btn-download {
+                background-color: var(--azul-escuro);
+                color: var(--dourado);
+                padding: 15px 30px;
+                text-decoration: none;
+                font-size: 20px;
+                border-radius: 5px;
+                display: inline-block;
+                margin-top: 20px;
+                transition: background 0.2s, transform 0.2s;
+                box-shadow: 0 2px 8px rgba(10,44,83,0.12);
+                font-weight: bold;
+            }
+            .btn-download:hover {
+                background-color: var(--dourado-claro);
+                color: var(--azul-escuro);
+                transform: scale(1.05);
+            }
+            .tabs {
+                display: flex;
+                justify-content: center;
+                margin-top: 30px;
+            }
+            .tab {
+                background: var(--dourado-claro);
+                color: var(--azul-escuro);
+                border: 2px solid var(--dourado);
+                border-bottom: none;
+                padding: 12px 32px;
+                cursor: pointer;
+                font-size: 18px;
+                border-radius: 10px 10px 0 0;
+                margin-right: 5px;
+                transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+                box-shadow: 0 2px 8px rgba(201,161,59,0.08);
+                font-weight: 600;
+            }
+            .tab.active {
+                background: var(--dourado);
+                color: var(--azul-escuro);
+                box-shadow: 0 4px 12px rgba(201,161,59,0.12);
+            }
+            .tab-content {
+                background: var(--dourado-claro);
+                border: 2px solid var(--dourado);
+                border-radius: 0 0 10px 10px;
+                padding: 30px;
+                min-height: 220px;
+                animation: fadeIn 0.4s;
+                color: var(--azul-escuro);
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .features {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                flex-wrap: wrap;
+                margin-top: 40px;
+            }
+            .card {
+                background: var(--dourado);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(201,161,59,0.10);
+                width: 250px;
+                transition: box-shadow 0.2s, transform 0.2s;
+                border: 1.5px solid var(--azul-escuro);
+                color: var(--azul-escuro);
+                font-weight: 500;
+            }
+            .card:hover {
+                box-shadow: 0 6px 18px rgba(201,161,59,0.18);
+                transform: translateY(-4px);
+                background: var(--dourado-claro);
+            }
+            footer {
+                margin-top: 50px;
+                padding: 20px;
+                background: var(--dourado);
+                color: var(--azul-escuro);
+                border-radius: 0 0 16px 16px;
+                box-shadow: 0 -2px 8px rgba(201,161,59,0.08);
+                font-weight: bold;
+                letter-spacing: 1px;
+            }
         </style>
         <script>
             function showTab(tabIndex) {
@@ -27,6 +214,28 @@
                     contents[idx].style.display = idx === tabIndex ? 'block' : 'none';
                 });
             }
+            function showFeatureDetail(featureName) {
+                const details = {
+                    'Controle de Vendas': 'Permite registrar vendas, emitir cupons fiscais, controlar formas de pagamento e fechamento de caixa com segurança.',
+                    'Gestão de Estoque': 'Gerencie entradas, saídas, inventário, alertas de estoque mínimo e relatórios de movimentação.',
+                    'Relatórios': 'Gere relatórios completos de vendas, estoque, clientes, fluxo de caixa e desempenho do negócio.',
+                    'Cadastro de Clientes': 'Armazene dados, histórico de compras, contatos e fidelize clientes com promoções.',
+                    'Emissão de Nota Fiscal': 'Emita notas fiscais eletrônicas (NFC-e, NF-e) de forma rápida e integrada.',
+                    'Controle de Usuários': 'Gerencie permissões, acessos e histórico de operações de cada usuário.',
+                    'Integração com TEF': 'Aceite cartões de crédito/débito com integração TEF homologada.',
+                    'Configuração de Totem': 'Personalize o Totem para autoatendimento, cardápio digital e pedidos.',
+                    'Gestão de Promoções': 'Crie promoções, combos, descontos automáticos e campanhas de marketing.',
+                    'Backup Automático': 'Sistema realiza backups automáticos para garantir segurança dos dados.'
+                };
+                const modalBg = document.getElementById('modal-bg');
+                const modalContent = document.getElementById('modal-content');
+                modalContent.innerHTML = '<button class="modal-close" onclick="closeModal()">&times;</button>' + '<strong>' + featureName + '</strong>' + (details[featureName] || 'Funcionalidade não encontrada.');
+                modalBg.classList.add('active');
+            }
+
+            function closeModal() {
+                document.getElementById('modal-bg').classList.remove('active');
+            }
             window.onload = function() {
                 showTab(0);
             };
@@ -35,60 +244,81 @@
 <body>
 
 <header>
+    <img src="torres-gestao-logo.png" alt="Torres Gestão Logo" class="logo">
     <h1>Torres Gestão</h1>
     <p>A solução inteligente para o seu comércio. Automação e Controle.</p>
 </header>
-
-<div class="container">
+       
     <div class="tabs">
-        <div class="tab active" onclick="showTab(0)">PDV</div>
-        <div class="tab" onclick="showTab(1)">Estoque</div>
-        <div class="tab" onclick="showTab(2)">Relatórios</div>
+        <div class="tab active" onclick="showTab(0)">Home</div>
+        <div class="tab" onclick="showTab(1)">Recursos</div>
+        <div class="tab" onclick="showTab(2)">Download</div>
         <div class="tab" onclick="showTab(3)">Clientes</div>
     </div>
     <div class="tab-content" style="display:block;">
-        <h2>Sistema PDV / TOTEM Completo</h2>
-        <p>Gerencie suas vendas, estoque e clientes em um só lugar.</p>
-        <a href="#" class="btn-download">Baixar Versão Recente (.exe)</a>
+        <h2>Bem-vindo ao Torres Gestão</h2>
+        <p>Conheça as principais funcionalidades do sistema:</p>
         <div class="features">
             <div class="card">
                 <h3>Controle de Vendas</h3>
-                <p>Rapidez e segurança no fechamento do caixa.</p>
+                <p>Fechamento de caixa rápido e seguro.</p>
             </div>
-        </div>
-    </div>
-    <div class="tab-content" style="display:none;">
-        <h2>Gestão de Estoque</h2>
-        <div class="features">
-            <div class="card">
-                <h3>Gestão de Estoque</h3>
-                <p>Saiba exatamente o que entra e sai da sua loja.</p>
-            </div>
-        </div>
-    </div>
-    <div class="tab-content" style="display:none;">
-        <h2>Relatórios</h2>
-        <div class="features">
-            <div class="card">
-                <h3>Relatórios</h3>
-                <p>Acompanhe o crescimento do seu negócio em tempo real.</p>
-            </div>
-        </div>
-    </div>
-    <div class="tab-content" style="display:none;">
-        <h2>Clientes</h2>
-        <div class="features">
             <div class="card">
                 <h3>Cadastro de Clientes</h3>
-                <p>Gerencie informações e histórico de seus clientes.</p>
+                <p>Fidelização e histórico completo.</p>
+            </div>
+            <div class="card">
+                <h3>Emissão de Nota Fiscal</h3>
+                <p>Integração total com a SEFAZ.</p>
+            </div>
+            <div class="card">
+                <h3>Relatórios Detalhados</h3>
+                <p>Acompanhe o desempenho do seu negócio.</p>
+            </div>
+            <div class="card">
+                <h3>Totem Autoatendimento</h3>
+                <p>Agilize o atendimento e aumente as vendas.</p>
+            </div>
+            <div class="card">
+                <h3> Mobile Garçom</h3>
+                <p> Lance pedidos diretamente do seu dispositivo móvel.</p>
             </div>
         </div>
     </div>
-</div>
-
-<footer>
-    <p>&copy; 2026 Torres Gestão - Todos os direitos reservados.</p>
-</footer>
+    <div class="tab-content" style="display:none;">
+        <h2>Recursos do Sistema</h2>
+        <div class="recursos-grid">
+            <button class="btn-recurso" onclick="showFeatureDetail('Controle de Vendas')">Controle de Vendas</button>
+            <button class="btn-recurso" onclick="showFeatureDetail('Gestão de Estoque')">Gestão de Estoque</button>
+            <button class="btn-recurso" onclick="showFeatureDetail('Relatórios')">Relatórios</button>
+            <button class="btn-recurso" onclick="showFeatureDetail('Cadastro de Clientes')">Cadastro de Clientes</button>
+            <button class="btn-recurso" onclick="showFeatureDetail('Emissão de Nota Fiscal')">Emissão de Nota Fiscal</button>
+            <button class="btn-recurso" onclick="showFeatureDetail('Controle de Usuários')">Controle de Usuários</button>
+            <button class="btn-recurso" onclick="showFeatureDetail('Integração com TEF')">Integração com TEF</button>
+            <button class="btn-recurso" onclick="showFeatureDetail('Configuração de Totem')">Configuração de Totem</button>
+            <button class="btn-recurso" onclick="showFeatureDetail('Gestão de Promoções')">Gestão de Promoções</button>
+            <button class="btn-recurso" onclick="showFeatureDetail('Backup Automático')">Backup Automático</button>
+        </div>
+        <div id="modal-bg" class="modal-bg" onclick="if(event.target===this)closeModal()">
+            <div id="modal-content" class="modal-recurso"></div>
+        </div>
+    </div>
+    <div class="tab-content" style="display:none;">
+        <h2>Sistema PDV / TOTEM Completo</h2>
+        <p>Gerencie suas vendas, estoque e clientes em um só lugar.</p>
+        <a href="#" class="btn-download">Baixar Versão Recente (.exe)</a>
+    </div>
+    <div class="tab-content" style="display:none;">
+        <h2>Nossos Clientes</h2>
+        <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-top: 32px;">
+            <img src="clientes/acai-do-madruga-logo.png" alt="Açai do Madruga - Marista" style="width: 140px; height: auto; border-radius: 12px; box-shadow: 0 2px 8px rgba(10,44,83,0.12); margin-bottom: 18px;">
+            <h3 style="color: var(--azul-escuro); font-size: 26px; font-weight: bold;">Açai do Madruga - Marista</h3>
+            <p style="color: var(--azul-escuro); font-size: 18px; margin-top: 8px;">Cliente Torres Gestão</p>
+            <img src="clientes/Pedacci-logo.jpeg" alt="Pedacci Bistro e Pizzaria" style="width: 140px; height: auto; border-radius: 12px; box-shadow: 0 2px 8px rgba(10,44,83,0.12); margin-bottom: 18px; margin-top: 32px;">
+            <h3 style="color: var(--azul-escuro); font-size: 26px; font-weight: bold;">Pedacci Bistro e Pizzaria</h3>
+            <p style="color: var(--azul-escuro); font-size: 18px; margin-top: 8px;">Cliente Torres Gestão</p>
+        </div>
+    </div>
 
 </body>
 </html>
